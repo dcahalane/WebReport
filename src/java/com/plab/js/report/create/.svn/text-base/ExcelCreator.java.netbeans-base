@@ -1,0 +1,66 @@
+package com.plab.js.report.create;
+
+import java.io.IOException;
+import java.io.OutputStream;
+import java.util.HashMap;
+import java.util.Map;
+
+import org.apache.poi.hssf.usermodel.HSSFCell;
+import org.apache.poi.hssf.usermodel.HSSFCellStyle;
+import org.apache.poi.hssf.usermodel.HSSFFont;
+import org.apache.poi.hssf.usermodel.HSSFRow;
+import org.apache.poi.hssf.usermodel.HSSFSheet;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+
+
+public class ExcelCreator implements Creator{
+	
+	private HSSFWorkbook workbook = new HSSFWorkbook();
+	
+	public ExcelCreator(){
+		super();
+	}
+	
+	public void create(String reportName, String[] header, String[][] data, int total){
+		HSSFSheet sheet = getWorkbook().createSheet(reportName);
+		HSSFRow headerRow = sheet.createRow(0);
+		HSSFFont headerFont = getWorkbook().createFont();
+		headerFont.setColor(HSSFFont.COLOR_RED);
+		headerFont.setBoldweight(HSSFFont.BOLDWEIGHT_BOLD);
+		   // Create the style
+		HSSFCellStyle headerStyle= getWorkbook().createCellStyle();
+		headerStyle.setFont(headerFont);
+		for(int i=0;i<header.length; i++){
+			HSSFCell cell = headerRow.createCell(i, HSSFCell.CELL_TYPE_STRING);
+		    cell.setCellStyle(headerStyle);
+		    //cell.setCellType(HSSFCell.CELL_TYPE_STRING);
+		    cell.setCellValue(header[i]);
+		}
+		for(int j=0; j<data.length;j++){
+			HSSFRow row = sheet.createRow(j+1);
+			for(int k=0; k<data[j].length; k++){
+				HSSFCell cell = row.createCell(k, HSSFCell.CELL_TYPE_STRING);
+			    cell.setCellType(HSSFCell.CELL_TYPE_STRING);
+			    cell.setCellValue(data[j][k]);
+			}
+		}
+	}
+	
+	public void print(OutputStream out) throws IOException{
+		workbook.write(out);
+		out.flush();
+	}
+	
+	public void setWorkbook(HSSFWorkbook workbook) {
+		this.workbook = workbook;
+	}
+	public HSSFWorkbook getWorkbook() {
+		return workbook;
+	}
+	
+	public String toString(){
+		return new String(getWorkbook().getBytes());
+	}
+	
+
+}

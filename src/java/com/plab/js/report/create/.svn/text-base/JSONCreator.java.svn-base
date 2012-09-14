@@ -1,0 +1,47 @@
+package com.plab.js.report.create;
+
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
+
+public class JSONCreator implements Creator{
+	String jsonString;
+	String[] columns;
+	@Override
+	public void create(String reportName, String[] header, String[][] data, int total) {
+		this.columns = header;
+		StringBuffer retVal = new StringBuffer();
+		retVal.append("{\"total\": \""+  total +"\",\"records\":[");
+		for(int i=0; i<data.length; i++){
+			retVal.append("{");
+			for(int j=0; j<data[i].length; j++){
+				String value = data[i][j];
+				if(value == null || "null".equalsIgnoreCase(value)) value = "";
+				retVal.append("\"" + header[j] + "\":\"" + value + "\"");
+				if((j+1)<header.length){
+					retVal.append(",");
+				}
+			}
+			retVal.append("}");
+			if((i+1)<data.length){
+				retVal.append(",");
+			}
+			
+		}	
+		retVal.append("]}");	
+		jsonString = retVal.toString();
+	}
+
+	@Override
+	public void print(OutputStream out) throws IOException {
+		PrintWriter writer = new PrintWriter(new OutputStreamWriter(out));
+		writer.println(jsonString);
+		out.flush();
+	}
+	
+	public String toString(){
+		return jsonString;
+	}
+
+}

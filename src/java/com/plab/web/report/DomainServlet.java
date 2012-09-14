@@ -1,0 +1,52 @@
+package com.plab.web.report;
+
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import com.plab.js.report.ConnectionManager;
+import com.plab.js.report.JsReport;
+import com.plab.js.report.ReportFactory;
+import java.sql.PreparedStatement;
+import java.sql.Connection;
+
+/**
+ * Servlet implementation class DomainServlet
+ */
+public class DomainServlet extends ReportingServlet {
+
+    private static final long serialVersionUID = 1L;
+
+    /**
+     * @see HttpServlet#HttpServlet()
+     */
+    public DomainServlet() {
+        super();
+        // TODO Auto-generated constructor stub
+    }
+
+    public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+        ConnectionManager.getInstance().initializeProperties(ReportFactory.getProperties());
+
+        String user = super.getUser(request);
+        if (user != null) {
+            if (user != null) {
+                String retVal = ReportFactory.getDomain(user);
+                retVal = retVal.replaceAll("/", " ");
+                retVal = retVal.replaceAll("\\\\", " ");
+//System.out.println(retVal);
+                response.getWriter().println(retVal);
+                response.getWriter().flush();
+                response.getWriter().close();
+            }
+        }
+
+    }
+}

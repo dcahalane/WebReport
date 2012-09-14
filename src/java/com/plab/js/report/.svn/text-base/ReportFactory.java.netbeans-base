@@ -1,0 +1,633 @@
+package com.plab.js.report;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FilenameFilter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Properties;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.xml.sax.InputSource;
+
+import com.plab.js.report.ReportFactory.ColumnInfo;
+import com.plab.js.report.ReportFactory.ParameterInfo;
+import com.plab.js.report.ReportFactory.ReportInfo;
+import java.sql.PreparedStatement;
+import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+public class ReportFactory {
+
+    public static String REPORT_HOME;
+    public static String PROP_FILE = "js.properties";
+    public static String DB_DRIVER = "";
+    public static String DB_NAME = "BRKDVLP";
+    public static String MAIL_HOST = "";
+    public static String MAIL_USER = "";
+    public static String MAIL_PASSWORD = "";
+    public static String DOMAIN_CONTROLLER = "ldap://smf1-phodc-05.photronics.com:389";
+    public static String LDAP_FACTORY = "com.sun.jndi.ldap.LdapCtxFactory";
+    //public static String AUTH_FILE = "report.authorization";//user=/relative/path/to/domain
+    public static String SERVER_NAME = "http://localhost:8084/WebReport";
+    public static Properties PROPERTY = new Properties();
+    //public static Properties AUTHORIZATIONS;
+    public static Map<String, List<ReportInfo>> REPORT_MAP = new HashMap<String, List<ReportInfo>>();
+    public static boolean INITIALIZED = false;
+    static SqlProcessor PROCESSOR;
+
+    static {
+        REPORT_HOME = System.getProperty("REPORT_HOME");
+        String propFileName = System.getProperty("PROP_FILE");
+        if (propFileName != null) {
+            PROP_FILE = propFileName;
+        }
+        try {
+            initialize();
+            INITIALIZED = false;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    static SqlProcessor getProcessor() {
+        if (PROCESSOR == null) {
+            PROCESSOR = new SqlProcessor();
+        }
+        return PROCESSOR;
+    }
+
+    ReportFactory() {
+    }
+
+    public static void initialize() throws FileNotFoundException, IOException {
+        initializeProperties();
+        ConnectionManager.getInstance().initializeProperties(PROPERTY);
+        initializeReports();
+        INITIALIZED = true;
+    }
+
+    public static void initializeProperties() throws FileNotFoundException, IOException {
+        if (REPORT_HOME == null) {
+            INITIALIZED = false;
+            return;
+        }
+        Logger.getLogger(ReportFactory.class.getName()).log(Level.INFO, "*** REPORT_HOME = " + REPORT_HOME);
+        PROPERTY.load(new FileInputStream(new File(REPORT_HOME, PROP_FILE)));
+        Field[] fields = JsReport.class.getFields();
+        for (int i = 0; i < fields.length; i++) {
+            int mod = fields[i].getModifiers();
+            if (Modifier.isStatic(mod) && Modifier.isPublic(mod) && !Modifier.isFinal(mod)) {
+                String name = fields[i].getName();
+                String value = PROPERTY.getProperty(name);
+                if (value != null) {
+                    try {
+                        Logger.getLogger(ReportFactory.class.getName()).log(Level.INFO, "***Setting " + name + " to " + value);
+                        fields[i].set(null, value);
+                    } catch (Exception e) {
+                        Logger.getLogger(ReportFactory.class.getName()).log(Level.SEVERE, "Unable to set ReportFactory static properties from file for Field name:" + name);
+                        Logger.getLogger(ReportFactory.class.getName()).log(Level.SEVERE, null, e);
+                    }
+                }
+            }
+
+        }
+    }
+
+    /*
+    public static Properties getAuthorizations() {
+        if (AUTHORIZATIONS == null) {
+            AUTHORIZATIONS = new Properties();
+            try {
+                AUTHORIZATIONS.load(new FileInputStream(new File(REPORT_HOME, AUTH_FILE)));
+            } catch (FileNotFoundException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+        }
+        return AUTHORIZATIONS;
+    }
+    */
+    static synchronized Properties getProperties() throws IOException {
+        if (PROPERTY == null) {
+            PROPERTY = new Properties();
+            PROPERTY.load(new FileInputStream(new File(REPORT_HOME, PROP_FILE)));
+        }
+        return PROPERTY;
+    }
+
+    static void initializeReports() {
+        Thread t = new Thread(new Runnable() {
+
+            public void run() {
+                //TODO: get all the report.xml files in the REPORT_HOME directory and build up the reports.
+            }
+        });
+        t.start();
+    }
+
+    //{"root":{"name": "root", "children": [{"name": "child1", "children":[{}]}, {"name": "child2", "children":[{}]}]}}
+    static final String DOMAIN_QRY = "select d.LOCATION from DOMAIN d, CONTACT_DOMAIN cd, CONTACT c where d.DOM_ID = cd.DOM_ID_FK and cd.CNT_ID_FK = c.CNT_ID and c.EMAIL = ?";
+    public static String getDomain(String user) {
+        //TODO: get the domains from the authorization file.
+       
+        StringBuffer retVal = new StringBuffer();
+        Connection con = null;
+        PreparedStatement stmt = null;
+        try{
+            con = ConnectionManager.getInstance().getConnection("MYOFFICE");
+            stmt = con.prepareStatement(DOMAIN_QRY);
+            stmt.setString(1, user);
+            ResultSet rs = stmt.executeQuery();
+            while(rs.next()){
+                if(retVal.length() > 1){
+                    retVal.append(", ");
+                }
+                String domain = rs.getString(1);
+               
+                retVal.append(getDomain(REPORT_HOME, domain));
+               
+            }
+        }catch(Exception e){
+            Logger.getLogger(ReportFactory.class.getName()).log(Level.SEVERE, "***** ERROR Accessing user domain for " + user);
+            Logger.getLogger(ReportFactory.class.getName()).log(Level.SEVERE, DOMAIN_QRY);
+            Logger.getLogger(ReportFactory.class.getName()).log(Level.SEVERE, null, e);
+            e.printStackTrace();
+        }finally{
+            if(con != null){
+                try{con.close();}catch(Exception eCls){}
+            }
+            if(stmt != null){
+                try{stmt.close();}catch(Exception eCls){}
+            }
+        }
+        if(retVal.length() < 1) retVal.append("N/A") ;
+        //retVal.insert(0, "{\"root\":");
+        retVal.insert(0, "[{\"text\": \""+user+"\",  \"id\": \"root\" , \"leaf\": false, \"cls\" : \"folder\" , \"children\": [");
+        retVal.append("]}]");
+
+        return retVal.toString();
+    }
+
+    static String getDomain(String parent, String domain) {
+        StringBuffer retVal = new StringBuffer();
+        File f = new File(parent, domain);
+        File[] children = f.listFiles(new FilenameFilter() {
+
+            public boolean accept(File file, String name) {
+                return ((file.isDirectory() && !name.toLowerCase().endsWith("svn")) || name.toLowerCase().endsWith("xml"));
+            }
+        });
+        List<String> childrenList = new ArrayList<String>();
+        for (int i = 0; children != null && i < children.length; i++) {
+            childrenList.add(getDomain(f.getAbsolutePath(), children[i].getName()));
+        }
+        String parentName = parent;
+        if (parent != null) {
+            int parInd = parent.indexOf(REPORT_HOME);
+            if (parInd > -1) {
+                parentName = parent.substring(parInd + REPORT_HOME.length());
+            }
+        }
+        String slash = domain.startsWith("/") ? "" : "\\";
+        String id = (parentName != null) ? parentName + slash + domain : domain;
+        id = (id.endsWith(".xml")) ? id.substring(0, id.length() - 4) : id;
+        int slashInd = domain.lastIndexOf("/");
+        String domainName = (slashInd > -1) ? domain.substring(slashInd) : domain;
+        retVal.insert(0, "{\"text\": \"" + domainName + "\",  \"id\": \"" + id + "\" ");
+        if (childrenList.size() > 0) {
+            retVal.append(", \"leaf\": false, \"cls\" : \"folder\"");
+            retVal.append(" , \"children\": [");
+            for (int j = 0; j < childrenList.size(); j++) {
+                if (j > 0) {
+                    retVal.append(", ");
+                }
+                retVal.append(childrenList.get(j));
+            }
+            retVal.append("]}");
+        } else {
+            retVal.append(", \"leaf\": true }");
+        }
+
+
+        return retVal.toString();
+    }
+
+    static synchronized String convertType(String typeName) {
+        String retVal = null;
+
+        return retVal;
+    }
+
+    static List<ReportInfo> parseReportFile(String reportName) {
+        List<ReportInfo> retVal = new ArrayList<ReportInfo>();
+        
+        reportName = reportName.trim();
+        System.out.println("*****" + REPORT_HOME + "" + reportName);
+        
+        StringBuffer colBuffer = new StringBuffer();
+        String DB_SID = "";
+        try {
+            File file = (reportName.toUpperCase().endsWith("XML")) ? new File(reportName) : new File(REPORT_HOME, reportName + ".xml");
+            DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+            dbf.setCoalescing(false);//Don't remove CDATA
+            DocumentBuilder db = dbf.newDocumentBuilder();
+            InputSource source = new InputSource(new InputStreamReader(new FileInputStream(file), "UTF-8"));
+            source.setEncoding("UTF-8");
+            Document doc = db.parse(source);
+            doc.getDocumentElement().normalize();
+            NodeList nodeReports = doc.getElementsByTagName("reports");
+            if (nodeReports != null && nodeReports.getLength() > 0) {
+                REPORTS:
+                for (int r = 0; r < nodeReports.getLength(); r++) {
+                    NodeList nodeReport = doc.getElementsByTagName("report");
+                    for (int rep = 0; rep < nodeReport.getLength(); rep++) {
+                        Node report = nodeReport.item(rep);
+                        String childReport = ((Element) report).getAttribute("location");
+                        if (childReport != null) {
+                            retVal.addAll(parseReportFile(childReport));
+                        }
+                    }
+                }
+            } else {
+                ReportInfo info = new ReportInfo();
+                info.name = reportName;
+                retVal.add(info);
+
+                NodeList nodeReport = doc.getElementsByTagName("report");
+                for (int rep = 0; rep < nodeReport.getLength(); rep++) {
+                    Node report = nodeReport.item(rep);
+                    String type = ((Element) report).getAttribute("type");
+                    if(type != null){
+                        info.pivot = "PIVOT".equalsIgnoreCase(type);
+                        info.property = "PROPERTY".contains(type);
+                        info.headerType = "HEADER".equalsIgnoreCase(type);
+                    }
+                    info.title = ((Element) report).getAttribute("title");
+                    info.paginate = "TRUE".equalsIgnoreCase(((Element) report).getAttribute("paginate"));
+                    info.header = !"FALSE".equalsIgnoreCase(((Element) report).getAttribute("header"));
+                    info.autoHeight = "TRUE".equalsIgnoreCase(((Element) report).getAttribute("auto-height"));
+                    String h = ((Element) report).getAttribute("height");
+                    if(h != null  && h.length() > 0 ){
+                        info.height = Integer.parseInt(h);
+                    }
+                    String w = ((Element) report).getAttribute("width");
+                    if(w != null && w.length() > 0){
+                        info.width = Integer.parseInt(w);
+                    }
+                }
+
+
+
+                NodeList nodeLst = doc.getElementsByTagName("sql");
+                SQL:
+                for (int s = 0; s < nodeLst.getLength(); s++) {
+                    Node fstNode = nodeLst.item(s);
+                    info.dbName = ((Element) fstNode).getAttribute("DB-NAME");
+                    info.driver = ((Element) fstNode).getAttribute("DB-DRIVER");
+                    NodeList children = fstNode.getChildNodes();
+                    for (int i = 0; i < children.getLength(); i++) {
+                        Node child = children.item(i);
+                        if (child.getNodeType() == Node.CDATA_SECTION_NODE) {
+                            info.sql = child.getNodeValue();
+                            break SQL;
+                        }
+                    }
+                }
+                //Get the columns
+                NodeList columnLst = doc.getElementsByTagName("column");
+                for (int s = 0; s < columnLst.getLength(); s++) {
+                    Node fstNode = columnLst.item(s);
+                    if (fstNode instanceof Element) {
+                        ColumnInfo colInfo = new ColumnInfo();
+                        StringBuffer buffer = new StringBuffer();
+                        colInfo.name = ((Element) fstNode).getAttribute("name");
+                        colInfo.type = ((Element) fstNode).getAttribute("type");
+                        colInfo.width = ((Element) fstNode).getAttribute("width");
+                        colInfo.label = ((Element) fstNode).getAttribute("label");
+                        colInfo.hidden = "TRUE".equalsIgnoreCase(((Element) fstNode).getAttribute("hidden"));
+                        colInfo.topAxis = "TRUE".equalsIgnoreCase(((Element) fstNode).getAttribute("top-axis"));
+                        colInfo.leftAxis = "TRUE".equalsIgnoreCase(((Element) fstNode).getAttribute("left-axis"));
+                        colInfo.aggregator = ((Element) fstNode).getAttribute("aggregator");
+                        colInfo.renderer = ((Element) fstNode).getAttribute("renderer");
+                        info.columns.add(colInfo);
+                    }
+                }
+                NodeList paramLst = doc.getElementsByTagName("parameter");
+                for (int s = 0; s < paramLst.getLength(); s++) {
+                    Node fstNode = paramLst.item(s);
+                    if (fstNode instanceof Element) {
+                        ParameterInfo paramInfo = new ParameterInfo();
+                        paramInfo.parentReport = info;
+                        StringBuffer buffer = new StringBuffer();
+                        paramInfo.name = ((Element) fstNode).getAttribute("name");
+                        paramInfo.columnName = ((Element) fstNode).getAttribute("column");
+                        paramInfo.distinct = "TRUE".equalsIgnoreCase(((Element) fstNode).getAttribute("distinct"));
+                        paramInfo.prompt = "TRUE".equalsIgnoreCase(((Element) fstNode).getAttribute("prompt"));
+                        paramInfo.boundParameter = ((Element) fstNode).getAttribute("bound");
+                        paramInfo.type = ((Element) fstNode).getAttribute("type");
+                        paramInfo.multiSelect = "TRUE".equalsIgnoreCase(((Element) fstNode).getAttribute("allow-multi-select"));
+                        info.parameters.add(paramInfo);
+                        NodeList options = ((Element) fstNode).getElementsByTagName("option");
+                        for (int t = 0; t < options.getLength(); t++) {
+                            Node o = options.item(t);
+                            if (o instanceof Element) {
+                                String key = ((Element) o).getAttribute("key");
+                                String value = ((Element) o).getAttribute("value");
+                                if (value == null) {
+                                    value = key;
+                                }
+                                if (key != null) {
+                                    paramInfo.keyValuePairs.put(key, value);
+                                }
+                            }
+
+                        }
+                        NodeList selSql = ((Element) fstNode).getElementsByTagName("select-sql");
+                        SELECT:
+                        for (int t = 0; t < selSql.getLength(); t++) {
+                            Node o = selSql.item(t);
+                            NodeList children = o.getChildNodes();
+                            for (int i = 0; i < children.getLength(); i++) {
+                                Node child = children.item(i);
+                                if (child.getNodeType() == Node.CDATA_SECTION_NODE) {
+                                    paramInfo.selectionSql = child.getNodeValue();
+                                    break SELECT;
+                                }
+                            }
+                        }
+                    }
+                }
+                NodeList nodeMessage = doc.getElementsByTagName("message");
+                MESSAGE:
+                for (int s = 0; s < nodeMessage.getLength(); s++) {
+                    Node fstNode = nodeMessage.item(s);
+                    //info.dbName = ((Element) fstNode).getAttribute("DB-NAME");
+                    NodeList children = fstNode.getChildNodes();
+                    for (int i = 0; i < children.getLength(); i++) {
+                        Node child = children.item(i);
+                        if (child.getNodeType() == Node.CDATA_SECTION_NODE) {
+                            info.message = child.getNodeValue();
+                            break MESSAGE;
+                        }
+                    }
+                }
+
+            }
+
+        } catch (Exception eParse) {
+           Logger.getLogger(ReportFactory.class.getName()).log(Level.SEVERE, null, eParse);
+        }
+        return retVal;
+    }
+
+    public static synchronized List<ReportInfo> getReportInfoList(String reportName) {
+        List<ReportInfo> retVal = REPORT_MAP.get(reportName);
+        if (retVal == null) {
+            retVal = parseReportFile(reportName);
+            //retVal.name = reportName;
+            REPORT_MAP.put(reportName, retVal);
+        }
+        return retVal;
+    }
+
+    public static synchronized ReportInfo getReportInfo(String reportName) {
+        ReportInfo retVal = null;
+        List<ReportInfo> list = getReportInfoList(reportName);
+        if (list != null && list.size() > 0) {
+            retVal = list.get(0);
+        }
+        return retVal;
+    }
+
+    public static class ReportInfo {
+
+        public String name;
+        public String sql;
+        public String dbName;
+        public String title;
+        public String driver;
+        public boolean pivot = false;
+        public boolean property = false;
+        public boolean headerType = false;
+        public boolean autoHeight = false;
+        public boolean header = true;
+        public boolean paginate = false;
+        public int height = 600;
+        public int width = 1060;
+        
+        
+        public String message;
+        public List<ColumnInfo> columns = new ArrayList<ColumnInfo>();
+        public List<ParameterInfo> parameters = new ArrayList<ParameterInfo>();
+
+        public String getSql() {
+            return sql;
+        }
+
+        public List<ColumnInfo> getDefaultColumns() {
+            return columns;
+        }
+
+        public String getDbName() {
+            return dbName;
+        }
+        
+        public ColumnInfo getColumn(String name){
+            ColumnInfo retVal = null;
+            for(ColumnInfo c: columns){
+                if(name.equals(c.name)){
+                    retVal = c;
+                    break;
+                }
+            }
+            return retVal;
+        }
+
+        public ColumnInfo getAggregatorColumn() {
+            ColumnInfo retVal = null;
+            for (ColumnInfo c : columns) {
+                if (c.aggregator != null && c.aggregator.length() > 0) {
+                    retVal = c;
+                    break;
+                }
+            }
+            return retVal;
+        }
+
+        public List<ColumnInfo> getLeftAxis() {
+            List<ColumnInfo> retVal = new ArrayList<ColumnInfo>();
+            for (ColumnInfo c : columns) {
+                if (c.leftAxis) {
+                    retVal.add(c);
+                }
+            }
+            return retVal;
+        }
+
+        public List<ColumnInfo> getTopAxis() {
+            List<ColumnInfo> retVal = new ArrayList<ColumnInfo>();
+            for (ColumnInfo c : columns) {
+                if (c.topAxis) {
+                    retVal.add(c);
+                }
+            }
+            return retVal;
+        }
+    }
+
+    public static class ColumnInfo {
+
+        String name;
+        String label;
+        String type;
+        String width;
+        public boolean hidden = false;
+        public boolean topAxis = false;
+        public boolean leftAxis = false;
+        public String aggregator;
+        public String renderer;
+
+        public String toString() {
+            return name + ":" + getLabel() + ":" + type + ":" + width;
+        }
+
+        public String getLabel() {
+            return (label == null) ? name : label;
+        }
+        
+        /*
+         * function(value, metaData, record, row, col, store){
+         * The file that the scanner points to holds the inner code to the renderer code.
+         */
+        public String getRenderer(){
+            String retVal = null;
+            if(renderer == null){
+               retVal = "return value;";
+               return retVal;
+            }
+            try{
+                FileInputStream in = new FileInputStream(new File(REPORT_HOME, renderer));
+                Scanner scan = new Scanner(in);
+                StringBuffer text = new StringBuffer();
+                while(scan.hasNextLine()){
+                    text.append(scan.nextLine() + "\n");
+                }
+                if(text == null) throw new Exception("No text read from file " + renderer);
+                retVal = text.toString();
+            }catch(Exception e){
+                System.out.println("***** Error reading renderer " + renderer + "\n" + e.getMessage());
+                //Logger.getLogger(ReportFactory.class.getName()).log(Level.SEVERE, null, e);
+                retVal = "return value;";
+            }
+            return retVal;
+        }
+    }
+
+    public static class ParameterInfo {
+
+        public String name;
+        public String columnName;
+        public boolean distinct;
+        public boolean prompt = true;
+        public String type;
+        public boolean multiSelect = false;
+        Map<String, String> keyValuePairs = new HashMap<String, String>();
+        String selectionSql;
+        ReportInfo parentReport;
+        String boundParameter;
+        public String boundValue;
+
+        public Map<String, String> getValues(Map<String, String> params) {
+            if (selectionSql != null && keyValuePairs.size() < 1) {
+                keyValuePairs.clear();
+                keyValuePairs = runSql(selectionSql, params);
+            }
+            return keyValuePairs;
+        }
+
+        public void clearValues() {
+            keyValuePairs.clear();
+        }
+
+        public synchronized Map<String, String> runSql(String sql, Map<String, String> params) {
+            Map<String, String> retVal = new HashMap<String, String>();
+            String dbName = parentReport.getDbName();
+            String driver = parentReport.driver;
+            Connection con = null;
+            try {
+                con = ConnectionManager.getInstance().getConnection(dbName, driver);
+                Statement stmt = con.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+                String procSql = sql;
+                if (sql.contains("#!BOUND!#") && (boundValue == null || boundValue.length() < 1)) {
+                    retVal.put("NA", "NA");
+                    return retVal;
+                }
+                if (boundValue != null && boundValue.length() > 0) {
+                    procSql = sql.replace("#!BOUND!#", boundValue);
+                } else {
+                    procSql = sql.replace("#!BOUND!#", "");
+                }
+
+                procSql = getProcessor().processSQL(procSql, params);
+                System.out.println(procSql);
+                ResultSet rs = stmt.executeQuery(procSql);
+                ResultSetMetaData rsmd = rs.getMetaData();
+                while (rs.next()) {
+                    String id = rs.getString(1);
+                    String val = id;
+                    if (rsmd.getColumnCount() > 1) {
+                        val = rs.getString(2);
+                    }
+                    retVal.put(id, val);
+                }
+            } catch (Exception e) {
+                Logger.getLogger(ReportFactory.class.getName()).log(Level.SEVERE, null, e);
+                retVal.put("1", "A");
+            } finally {
+                if (con != null) {
+                    try {
+                        con.close();
+                    } catch (Exception e) {
+                    }
+                }
+            }
+            return retVal;
+        }
+    }
+
+    static String getQueryString(Map<String, String> parameters) {
+        StringBuffer retVal = new StringBuffer();
+        for (String key : parameters.keySet()) {
+            if (retVal.length() > 0) {
+                retVal.append("&");
+            }
+            retVal.append(key + "=" + parameters.get(key));
+        }
+        return retVal.toString();
+    }
+}
