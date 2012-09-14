@@ -1,0 +1,47 @@
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/web/!svn/ver/76/WebReport/web/ext-3.4.0/examples/calendar/src/views
+END
+MonthView.js
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/web/!svn/ver/76/WebReport/web/ext-3.4.0/examples/calendar/src/views/MonthView.js
+END
+CalendarView.js
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/web/!svn/ver/76/WebReport/web/ext-3.4.0/examples/calendar/src/views/CalendarView.js
+END
+DayBodyView.js
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/web/!svn/ver/76/WebReport/web/ext-3.4.0/examples/calendar/src/views/DayBodyView.js
+END
+MonthDayDetailView.js
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/web/!svn/ver/76/WebReport/web/ext-3.4.0/examples/calendar/src/views/MonthDayDetailView.js
+END
+DayView.js
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/web/!svn/ver/76/WebReport/web/ext-3.4.0/examples/calendar/src/views/DayView.js
+END
+DayHeaderView.js
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/web/!svn/ver/76/WebReport/web/ext-3.4.0/examples/calendar/src/views/DayHeaderView.js
+END
+WeekView.js
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/web/!svn/ver/76/WebReport/web/ext-3.4.0/examples/calendar/src/views/WeekView.js
+END

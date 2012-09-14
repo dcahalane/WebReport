@@ -1,0 +1,59 @@
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/web/!svn/ver/73/myOffice/web/ext-3.4.0/src/ext-core/src/adapter
+END
+ext-base-dom.js
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/web/!svn/ver/73/myOffice/web/ext-3.4.0/src/ext-core/src/adapter/ext-base-dom.js
+END
+ext-base-event.js
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/web/!svn/ver/73/myOffice/web/ext-3.4.0/src/ext-core/src/adapter/ext-base-event.js
+END
+ext-base-region.js
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/web/!svn/ver/73/myOffice/web/ext-3.4.0/src/ext-core/src/adapter/ext-base-region.js
+END
+ext-base-ajax.js
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/web/!svn/ver/73/myOffice/web/ext-3.4.0/src/ext-core/src/adapter/ext-base-ajax.js
+END
+ext-base-anim.js
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/web/!svn/ver/73/myOffice/web/ext-3.4.0/src/ext-core/src/adapter/ext-base-anim.js
+END
+ext-base-begin.js
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/web/!svn/ver/73/myOffice/web/ext-3.4.0/src/ext-core/src/adapter/ext-base-begin.js
+END
+ext-base-anim-extra.js
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/web/!svn/ver/73/myOffice/web/ext-3.4.0/src/ext-core/src/adapter/ext-base-anim-extra.js
+END
+ext-base-end.js
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/web/!svn/ver/73/myOffice/web/ext-3.4.0/src/ext-core/src/adapter/ext-base-end.js
+END
+ext-base-point.js
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/web/!svn/ver/73/myOffice/web/ext-3.4.0/src/ext-core/src/adapter/ext-base-point.js
+END

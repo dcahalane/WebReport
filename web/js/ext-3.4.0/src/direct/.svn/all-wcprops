@@ -1,0 +1,47 @@
+K 25
+svn:wc:ra_dav:version-url
+V 50
+/web/!svn/ver/73/myOffice/web/ext-3.4.0/src/direct
+END
+JsonProvider.js
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/web/!svn/ver/73/myOffice/web/ext-3.4.0/src/direct/JsonProvider.js
+END
+Transaction.js
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/web/!svn/ver/73/myOffice/web/ext-3.4.0/src/direct/Transaction.js
+END
+Provider.js
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/web/!svn/ver/73/myOffice/web/ext-3.4.0/src/direct/Provider.js
+END
+Direct.js
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/web/!svn/ver/73/myOffice/web/ext-3.4.0/src/direct/Direct.js
+END
+PollingProvider.js
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/web/!svn/ver/73/myOffice/web/ext-3.4.0/src/direct/PollingProvider.js
+END
+RemotingProvider.js
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/web/!svn/ver/73/myOffice/web/ext-3.4.0/src/direct/RemotingProvider.js
+END
+Event.js
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/web/!svn/ver/73/myOffice/web/ext-3.4.0/src/direct/Event.js
+END

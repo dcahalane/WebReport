@@ -1,0 +1,101 @@
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/web/!svn/ver/76/WebReport/web/ext-3.4.0/src/widgets/layout
+END
+BorderLayout.js
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/web/!svn/ver/76/WebReport/web/ext-3.4.0/src/widgets/layout/BorderLayout.js
+END
+BoxLayout.js
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/web/!svn/ver/76/WebReport/web/ext-3.4.0/src/widgets/layout/BoxLayout.js
+END
+AccordionLayout.js
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/web/!svn/ver/76/WebReport/web/ext-3.4.0/src/widgets/layout/AccordionLayout.js
+END
+FormLayout.js
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/web/!svn/ver/76/WebReport/web/ext-3.4.0/src/widgets/layout/FormLayout.js
+END
+HBoxLayout.js
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/web/!svn/ver/76/WebReport/web/ext-3.4.0/src/widgets/layout/HBoxLayout.js
+END
+ContainerLayout.js
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/web/!svn/ver/76/WebReport/web/ext-3.4.0/src/widgets/layout/ContainerLayout.js
+END
+MenuLayout.js
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/web/!svn/ver/76/WebReport/web/ext-3.4.0/src/widgets/layout/MenuLayout.js
+END
+ToolbarLayout.js
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/web/!svn/ver/76/WebReport/web/ext-3.4.0/src/widgets/layout/ToolbarLayout.js
+END
+AbsoluteLayout.js
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/web/!svn/ver/76/WebReport/web/ext-3.4.0/src/widgets/layout/AbsoluteLayout.js
+END
+ColumnLayout.js
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/web/!svn/ver/76/WebReport/web/ext-3.4.0/src/widgets/layout/ColumnLayout.js
+END
+AnchorLayout.js
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/web/!svn/ver/76/WebReport/web/ext-3.4.0/src/widgets/layout/AnchorLayout.js
+END
+VBoxLayout.js
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/web/!svn/ver/76/WebReport/web/ext-3.4.0/src/widgets/layout/VBoxLayout.js
+END
+FitLayout.js
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/web/!svn/ver/76/WebReport/web/ext-3.4.0/src/widgets/layout/FitLayout.js
+END
+CardLayout.js
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/web/!svn/ver/76/WebReport/web/ext-3.4.0/src/widgets/layout/CardLayout.js
+END
+AutoLayout.js
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/web/!svn/ver/76/WebReport/web/ext-3.4.0/src/widgets/layout/AutoLayout.js
+END
+TableLayout.js
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/web/!svn/ver/76/WebReport/web/ext-3.4.0/src/widgets/layout/TableLayout.js
+END

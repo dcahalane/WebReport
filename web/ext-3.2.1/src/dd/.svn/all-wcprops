@@ -1,0 +1,59 @@
+K 25
+svn:wc:ra_dav:version-url
+V 47
+/web/!svn/ver/26/WebReport/web/ext-3.2.1/src/dd
+END
+DragTracker.js
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/web/!svn/ver/26/WebReport/web/ext-3.2.1/src/dd/DragTracker.js
+END
+DragZone.js
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/web/!svn/ver/26/WebReport/web/ext-3.2.1/src/dd/DragZone.js
+END
+DropTarget.js
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/web/!svn/ver/26/WebReport/web/ext-3.2.1/src/dd/DropTarget.js
+END
+ScrollManager.js
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/web/!svn/ver/26/WebReport/web/ext-3.2.1/src/dd/ScrollManager.js
+END
+DDCore.js
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/web/!svn/ver/26/WebReport/web/ext-3.2.1/src/dd/DDCore.js
+END
+DragSource.js
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/web/!svn/ver/26/WebReport/web/ext-3.2.1/src/dd/DragSource.js
+END
+Registry.js
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/web/!svn/ver/26/WebReport/web/ext-3.2.1/src/dd/Registry.js
+END
+StatusProxy.js
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/web/!svn/ver/26/WebReport/web/ext-3.2.1/src/dd/StatusProxy.js
+END
+DropZone.js
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/web/!svn/ver/26/WebReport/web/ext-3.2.1/src/dd/DropZone.js
+END

@@ -1,0 +1,29 @@
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/web/!svn/ver/26/WebReport/lib/javaee-endorsed-api-6.0
+END
+webservices-api-osgi.jar
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/web/!svn/ver/26/WebReport/lib/javaee-endorsed-api-6.0/webservices-api-osgi.jar
+END
+jaxb-api-osgi.jar
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/web/!svn/ver/26/WebReport/lib/javaee-endorsed-api-6.0/jaxb-api-osgi.jar
+END
+javax.annotation.jar
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/web/!svn/ver/26/WebReport/lib/javaee-endorsed-api-6.0/javax.annotation.jar
+END
+javaee6-doc-api.zip
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/web/!svn/ver/26/WebReport/lib/javaee-endorsed-api-6.0/javaee6-doc-api.zip
+END

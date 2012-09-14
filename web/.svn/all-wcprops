@@ -1,0 +1,29 @@
+K 25
+svn:wc:ra_dav:version-url
+V 30
+/web/!svn/ver/76/WebReport/web
+END
+test.html
+K 25
+svn:wc:ra_dav:version-url
+V 40
+/web/!svn/ver/76/WebReport/web/test.html
+END
+utilities.js
+K 25
+svn:wc:ra_dav:version-url
+V 43
+/web/!svn/ver/76/WebReport/web/utilities.js
+END
+main-page.jsp
+K 25
+svn:wc:ra_dav:version-url
+V 45
+/web/!svn/ver/101/WebReport/web/main-page.jsp
+END
+multi.html
+K 25
+svn:wc:ra_dav:version-url
+V 41
+/web/!svn/ver/48/WebReport/web/multi.html
+END

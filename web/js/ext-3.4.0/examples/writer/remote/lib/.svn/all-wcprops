@@ -1,0 +1,35 @@
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/web/!svn/ver/73/myOffice/web/ext-3.4.0/examples/writer/remote/lib
+END
+response.php
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/web/!svn/ver/73/myOffice/web/ext-3.4.0/examples/writer/remote/lib/response.php
+END
+model.php
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/web/!svn/ver/73/myOffice/web/ext-3.4.0/examples/writer/remote/lib/model.php
+END
+application_controller.php
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/web/!svn/ver/73/myOffice/web/ext-3.4.0/examples/writer/remote/lib/application_controller.php
+END
+session_db.php
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/web/!svn/ver/73/myOffice/web/ext-3.4.0/examples/writer/remote/lib/session_db.php
+END
+request.php
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/web/!svn/ver/73/myOffice/web/ext-3.4.0/examples/writer/remote/lib/request.php
+END

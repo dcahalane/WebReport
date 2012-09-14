@@ -1,0 +1,333 @@
+10
+
+dir
+90
+http://devnet.brk.photronics.com:1234/web/myOffice/web/ext-3.4.0/examples
+http://devnet.brk.photronics.com:1234/web
+
+
+
+2011-07-08T12:06:35.601938Z
+73
+dcahalane
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+a4c42ecd-9c60-0410-84e7-9d60482fcde8
+
+image-organizer
+dir
+
+restful
+dir
+
+themes
+dir
+
+debug
+dir
+
+dd
+dir
+
+core
+dir
+
+multiselect
+dir
+
+samples.css
+file
+
+
+
+
+2011-07-26T14:59:29.487624Z
+03de37ee39738af59a57623333f43726
+2011-07-08T12:06:35.601938Z
+73
+dcahalane
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+1053
+
+ux
+dir
+
+simple-widgets
+dir
+
+panel
+dir
+
+locale
+dir
+
+tree
+dir
+
+chart
+dir
+
+menu
+dir
+
+grid-filtering
+dir
+
+shared
+dir
+
+pivotgrid
+dir
+
+window
+dir
+
+statusbar
+dir
+
+desktop
+dir
+
+direct
+dir
+
+view
+dir
+
+layout
+dir
+
+spinner
+dir
+
+resizable
+dir
+
+state
+dir
+
+slider
+dir
+
+data.js
+file
+
+
+
+
+2011-07-26T14:59:29.497638Z
+6b5f47d2fd04dc5c05f585b0a94ed3d8
+2011-07-08T12:06:35.601938Z
+73
+dcahalane
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+26913
+
+grid
+dir
+
+tasks
+dir
+
+key-feed-viewer
+dir
+
+forum
+dir
+
+tabs
+dir
+
+layout-browser
+dir
+
+organizer
+dir
+
+portal
+dir
+
+history
+dir
+
+feed-viewer
+dir
+
+toolbar
+dir
+
+form
+dir
+
+treegrid
+dir
+
+grouptabs
+dir
+
+calendar
+dir
+
+message-box
+dir
+
+index.html
+file
+
+
+
+
+2011-07-26T14:59:29.497638Z
+7d9c6fa1a82b2610032d16557368836d
+2011-07-08T12:06:35.601938Z
+73
+dcahalane
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+4613
+
+README.txt
+file
+
+
+
+
+2011-07-26T14:59:29.537696Z
+be634c986ec9a313affc2484821930a9
+2011-07-08T12:06:35.601938Z
+73
+dcahalane
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+291
+
+button
+dir
+
+writer
+dir
+
+init.js
+file
+
+
+
+
+2011-07-26T14:59:29.537696Z
+1ac62c913df3805556958dd5778b0d53
+2011-07-08T12:06:35.601938Z
+73
+dcahalane
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+5425
+

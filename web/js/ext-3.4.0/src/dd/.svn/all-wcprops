@@ -1,0 +1,59 @@
+K 25
+svn:wc:ra_dav:version-url
+V 46
+/web/!svn/ver/73/myOffice/web/ext-3.4.0/src/dd
+END
+StatusProxy.js
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/web/!svn/ver/73/myOffice/web/ext-3.4.0/src/dd/StatusProxy.js
+END
+Registry.js
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/web/!svn/ver/73/myOffice/web/ext-3.4.0/src/dd/Registry.js
+END
+DragTracker.js
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/web/!svn/ver/73/myOffice/web/ext-3.4.0/src/dd/DragTracker.js
+END
+DragZone.js
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/web/!svn/ver/73/myOffice/web/ext-3.4.0/src/dd/DragZone.js
+END
+ScrollManager.js
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/web/!svn/ver/73/myOffice/web/ext-3.4.0/src/dd/ScrollManager.js
+END
+DropTarget.js
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/web/!svn/ver/73/myOffice/web/ext-3.4.0/src/dd/DropTarget.js
+END
+DragSource.js
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/web/!svn/ver/73/myOffice/web/ext-3.4.0/src/dd/DragSource.js
+END
+DDCore.js
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/web/!svn/ver/73/myOffice/web/ext-3.4.0/src/dd/DDCore.js
+END
+DropZone.js
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/web/!svn/ver/73/myOffice/web/ext-3.4.0/src/dd/DropZone.js
+END
